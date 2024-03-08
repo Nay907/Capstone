@@ -1,1 +1,84 @@
-<p>bugs works!</p>
+<div class="nav-bar-container">
+  <app-navbar></app-navbar>
+</div>
+<div class="align">
+  <div class="sidebar-container">
+    <app-sidebar></app-sidebar>
+  </div>
+  <div class="container">
+    <div class="card-header flex jc_end">
+      <form [formGroup]="searchForm" (ngSubmit)="applySearchs()">
+        <input
+          type="text"
+          formControlName="searchQuery"
+          placeholder="Search by bug title"
+          class="mr-2"
+        />
+        <input
+          type="text"
+          formControlName="filterTesterName"
+          placeholder="Search by tester name"
+          class="mr-2"
+        />
+        <input
+          type="text"
+          formControlName="filterDeveloperName"
+          placeholder="Search by developer name"
+          class="mr-2"
+        />
+        <button class="btn btn-success" (click)="createBug()">
+          Create Bug
+        </button>
+      </form>
+    </div>
+    <div class="card-body">
+      <table class="mat-elevation-z14 w-100">
+        <thead>
+          <tr>
+            <th>Bug ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Severity</th>
+            <th>Steps to Reproduce</th>
+            <th>Status</th>
+            <th>Expected Result</th>
+            <th>Actual Result</th>
+            <th>FilePath</th>
+            <th>Tester Name</th>
+            <th>Developer Name</th>
+            <th>Created At</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let bug of filteredBugs">
+            <td>{{ bug.bugId }}</td>
+            <td>{{ bug.title }}</td>
+            <td>{{ bug.description }}</td>
+            <td>{{ bug.severity }}</td>
+            <td>{{ bug.stepsToReproduce }}</td>
+            <td>{{ bug.status }}</td>
+            <td>{{ bug.expectedResult }}</td>
+            <td>{{ bug.actualResult }}</td>
+            <td><img [src]="bug.filePath" width="400px" /></td>
+            <td>{{ bug.testerName }}</td>
+            <td>{{ bug.developerName }}</td>
+            <td>{{ bug.createdAt }}</td>
+            <td>
+            </td>
+            <td>
+              <button
+                class="btn btn-danger"
+                (click)="
+                  selectedBugId = bug.bugId; deleteSelectedBugs(bug.bugId)
+                "
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

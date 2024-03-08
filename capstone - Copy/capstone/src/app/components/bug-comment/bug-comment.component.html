@@ -1,0 +1,86 @@
+<div class="nav-bar-container">
+  <app-navbar></app-navbar>
+</div>
+<div class="align">
+  <div class="sidebar-container">
+    <app-sidebar></app-sidebar>
+  </div>
+  <div class="container mt-3">
+    <div class="row">
+      <div class="col-12 text-end">
+        <button
+          class="btn btn-success btn-sm"
+          (click)="showCreateCommentForm()"
+        >
+          Create New Comment
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="showForm" class="row">
+      <div class="col-12">
+        <form [formGroup]="createCommentForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="commentId">Comment ID</label>
+            <input
+              type="text"
+              class="form-control"
+              id="commentId"
+              formControlName="commentId"
+            />
+          </div>
+          <div class="form-group">
+            <label for="comment">Comment</label>
+            <input
+              type="text"
+              class="form-control"
+              id="comment"
+              formControlName="Comment"
+            />
+          </div>
+          <div class="form-group">
+            <label for="testerName">Tester Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="testerName"
+              formControlName="TesterName"
+            />
+          </div>
+          <div class="form-group">
+            <label for="developerName">Developer Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="developerName"
+              formControlName="DeveloperName"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Comment ID</th>
+              <th>Comment</th>
+              <th>Tester Name</th>
+              <th>Developer Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let comment of commentsList">
+              <td>{{ comment.commentId }}</td>
+              <td>{{ comment.comment }}</td>
+              <td>{{ comment.testerName }}</td>
+              <td>{{ comment.developerName }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

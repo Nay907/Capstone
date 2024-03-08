@@ -6,12 +6,12 @@ import { User } from '../models/User';
   providedIn: 'root'
 })
 export class UsersService {
-  private apiUrl = 'https://api.example.com'; // Replace with your API url
+  private apiUrl = 'hhttps://localhost:7128/api/User'; // Replace with your API url
 
   constructor(private http: HttpClient) { }
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/users`);
+    return this.http.get<User[]>(`https://localhost:7128/api/User`);
   }
 
   createUser(user: User): Observable<User> {
@@ -23,7 +23,7 @@ export class UsersService {
   }
 
   deleteUser(userId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/users/${userId}`);
+    return this.http.delete<void>(`https://localhost:7128/api/User/${userId}`);
   }
   
   loginUser(loginObj: User): Observable<object> {

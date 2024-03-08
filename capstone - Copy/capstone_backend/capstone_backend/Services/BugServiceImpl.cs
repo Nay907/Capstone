@@ -1,4 +1,5 @@
-﻿using capstone_backend.Models;
+using capstone_backend.Models;
+using capstone_backend.Repository;
 using capstone_backend.Repository.interfaces;
 using capstone_backend.Services.Interfaces;
 
@@ -17,7 +18,7 @@ namespace capstone_backend.Services
             return await _bugsRepo.GetAllBugsAsync();
         }
 
-        public async Task<Bugs> GetBugByIdAsync(int id)
+        public async Task<List<Bugs>> GetBugByIdAsync(int id)
         {
             return await _bugsRepo.GetBugByIdAsync(id);
         }
@@ -36,5 +37,29 @@ namespace capstone_backend.Services
         {
             await _bugsRepo.DeleteBugAsync(id);
         }
+      public async Task<int> GetTotalBugCount()
+      {
+        return await _bugsRepo.GetTotalBugCount();
+      }
+
+    public async Task<int> GetBugCountBySeverity(string severity)
+    {
+      return await _bugsRepo.GetBugCountBySeverity(severity);
     }
+
+    public async Task<int> GetBugCountByLowSeverity()
+    {
+      return await _bugsRepo.GetBugCountByLowSeverity();
+    }
+
+    public async Task<int> GetBugCountByMediumSeverity()
+    {
+      return await _bugsRepo.GetBugCountByMediumSeverity();
+    }
+
+    public async Task<int> GetBugCountByHighSeverity()
+    {
+      return await _bugsRepo.GetBugCountByHighSeverity();
+    }
+  }
 }

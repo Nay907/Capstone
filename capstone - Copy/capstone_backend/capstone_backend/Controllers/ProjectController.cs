@@ -41,13 +41,6 @@ namespace capstone_backend.Controllers
              return Ok(new { message = "Project Created!" });
          }
 
-         /*[HttpPost]
-        public IActionResult AddProject([FromBody]Project project)
-        {
-            _projectService.AddProject(project);
-            return Ok("Project Created!");
-        }*/
-
         [HttpPut("{id}")]
         public IActionResult UpdateProject(int id, Project project)
         {

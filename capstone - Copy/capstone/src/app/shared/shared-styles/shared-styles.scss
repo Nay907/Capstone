@@ -1,6 +1,4 @@
-/* styles.css */
 
-/* Common styles for containers */
 .container {
     display: flex;
     flex-direction: column;
@@ -9,7 +7,6 @@
     padding: 20px;
 }
 
-/* Common styles for buttons */
 .btn {
     padding: 10px 20px;
     margin: 5px;
@@ -18,7 +15,6 @@
     cursor: pointer;
 }
 
-/* Common styles for inputs */
 .form-control {
     width: 80%;
     padding: 10px;
@@ -27,13 +23,11 @@
     border-radius: 5px;
 }
 
-/* Common styles for checkboxes */
 .checkbox {
     display: flex;
     align-items: center;
 }
 
-/* Common styles for links */
 .lnk-toggler {
     color: #007bff;
     text-decoration: none;

@@ -1,5 +1,6 @@
-﻿using capstone_backend.Models;
+using capstone_backend.Models;
 using capstone_backend.Repository.interfaces;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace capstone_backend.Repository
@@ -24,10 +25,9 @@ namespace capstone_backend.Repository
                             {
                                 CommentId = reader.GetInt32(reader.GetOrdinal("CommentId")),
                                 BugId = reader.GetInt32(reader.GetOrdinal("BugId")),
-                                TesterId = reader.GetInt32(reader.GetOrdinal("TesterId")),
-                                DeveloperId = reader.GetInt32(reader.GetOrdinal("DeveloperId")),
-                                Comment = reader.GetString(reader.GetOrdinal("Comment")),
-                                CommentedAt = reader.GetString(reader.GetOrdinal("CommentedAt"))
+                                TesterName = reader.GetString(reader.GetOrdinal("TesterName")),
+                                DeveloperName = reader.GetString(reader.GetOrdinal("DeveloperName")),
+                                Comment = reader.GetString(reader.GetOrdinal("Comment"))
                             });
                         }
                     }
@@ -42,9 +42,9 @@ namespace capstone_backend.Repository
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                using (var command = new SqlCommand("SELECT * FROM Comments WHERE CommentId = @CommentId", connection))
+                using (var command = new SqlCommand("SELECT * FROM Comments WHERE BugId = @BugId", connection))
                 {
-                    command.Parameters.AddWithValue("@CommentId", id);
+                    command.Parameters.AddWithValue("@BugId", id);
                     using (var reader = command.ExecuteReader())
                     {
                         if (reader.Read())
@@ -53,10 +53,9 @@ namespace capstone_backend.Repository
                             {
                                 CommentId = reader.GetInt32(reader.GetOrdinal("CommentId")),
                                 BugId = reader.GetInt32(reader.GetOrdinal("BugId")),
-                                TesterId = reader.GetInt32(reader.GetOrdinal("TesterId")),
-                                DeveloperId = reader.GetInt32(reader.GetOrdinal("DeveloperId")),
-                                Comment = reader.GetString(reader.GetOrdinal("Comment")),
-                                CommentedAt = reader.GetString(reader.GetOrdinal("CommentedAt"))
+                                TesterName = reader.GetString(reader.GetOrdinal("TesterName")),
+                                DeveloperName = reader.GetString(reader.GetOrdinal("DeveloperName")),
+                                Comment = reader.GetString(reader.GetOrdinal("Comment"))
                             };
                         }
                     }
@@ -65,19 +64,20 @@ namespace capstone_backend.Repository
             return comment;
         }
 
+
+
         public void AddComment(Comments comment)
         {
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                using (var command = new SqlCommand("INSERT INTO Comments (CommentId, BugId, TesterId, DeveloperId, Comment, CommentedAt) VALUES (@CommentId, @BugId, @TesterId, @DeveloperId, @Comment, @CommentedAt)", connection))
+                using (var command = new SqlCommand("INSERT INTO Comments (BugId, TesterName, DeveloperName, Comment) VALUES (@BugId, @TesterName, @DeveloperName, @Comment)", connection))
                 {
-                    command.Parameters.AddWithValue("@CommentId", comment.CommentId);
+                    
                     command.Parameters.AddWithValue("@BugId", comment.BugId);
-                    command.Parameters.AddWithValue("@TesterId", comment.TesterId);
-                    command.Parameters.AddWithValue("@DeveloperId", comment.DeveloperId);
+                    command.Parameters.AddWithValue("@TesterName", comment.TesterName);
+                    command.Parameters.AddWithValue("@DeveloperName", comment.DeveloperName);
                     command.Parameters.AddWithValue("@Comment", comment.Comment);
-                    command.Parameters.AddWithValue("@CommentedAt", comment.CommentedAt);
                     command.ExecuteNonQuery();
                 }
             }
@@ -88,14 +88,13 @@ namespace capstone_backend.Repository
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                using (var command = new SqlCommand("UPDATE Comments SET BugId = @BugId, TesterId = @TesterId, DeveloperId = @DeveloperId, Comment = @Comment, CommentedAt = @CommentedAt WHERE CommentId = @CommentId", connection))
+                using (var command = new SqlCommand("UPDATE Comments SET BugId = @BugId, TesterName = @TesterName, DeveloperName = @DeveloperName, Comment = @Comment WHERE CommentId = @CommentId", connection))
                 {
                     command.Parameters.AddWithValue("@CommentId", comment.CommentId);
                     command.Parameters.AddWithValue("@BugId", comment.BugId);
-                    command.Parameters.AddWithValue("@TesterId", comment.TesterId);
-                    command.Parameters.AddWithValue("@DeveloperId", comment.DeveloperId);
+                    command.Parameters.AddWithValue("@TesterName", comment.TesterName);
+                    command.Parameters.AddWithValue("@DeveloperName", comment.DeveloperName);
                     command.Parameters.AddWithValue("@Comment", comment.Comment);
-                    command.Parameters.AddWithValue("@CommentedAt", comment.CommentedAt);
                     command.ExecuteNonQuery();
                 }
             }

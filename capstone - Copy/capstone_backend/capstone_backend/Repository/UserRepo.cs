@@ -1,4 +1,4 @@
-﻿using capstone_backend.Models;
+using capstone_backend.Models;
 using capstone_backend.Repository.interfaces;
 using System.Data.SqlClient;
 using System.Security.Claims;
@@ -112,7 +112,7 @@ namespace capstone_backend.Repository
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand("DELETE FROM User WHERE UserId = @UserId", connection))
+                using (SqlCommand command = new SqlCommand("DELETE FROM Users WHERE UserId = @UserId", connection))
                 {
                     command.Parameters.AddWithValue("@UserId", id);
                     command.ExecuteNonQuery();
@@ -120,7 +120,7 @@ namespace capstone_backend.Repository
             }
         }
 
-        public string LoginUser(User userInput)        // check if user exists and return required
+        public string LoginUser(User userInput)        
         {
             List<User> User = new List<User>();
 
@@ -153,7 +153,7 @@ namespace capstone_backend.Repository
                     {
                         if (x.Password == userInput.Password)
                         {
-                            return "Logged In!";
+                            return $"Logged In! Access:{x.Access}";
                         }
                         else
                         {

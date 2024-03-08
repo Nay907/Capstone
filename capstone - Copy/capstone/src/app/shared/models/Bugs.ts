@@ -1,5 +1,6 @@
 export class Bugs{
     bugId: number
+    projectId:number
     title: string
     description: string
     severity: string
@@ -10,7 +11,7 @@ export class Bugs{
     filePath: string
     testerName: string
     developerName: string
-    createdAt: Date
-    updatedAt: Date
-    completedAt: Date
+    createdAt: string
+    updatedAt: string
+    completedAt: string
 }

@@ -18,23 +18,29 @@ export class RegisterComponent {
 
   ngOnInit(): void {
     this.registerForm = this.form.group({
-      userName: ['', Validators.required],
-      emailID: ['', Validators.required],
-      password: ['', Validators.required],
-      userRole: ['', Validators.required]
+      userName: ['', Validators.required, Validators.minLength(3)],
+      emailID: ['', Validators.required, Validators.email],
+      password: ['', Validators.required, Validators.minLength(2)],
+      userAccess: ['', Validators.required]
     });
 
     this.loginObj = new User();
   }
+  get formControls() {
+    return this.registerForm.controls;
+  }
 
   registerUser(event: FormGroup): void {
+    if (this.registerForm.invalid) {
+      return;
+    }
     this.loginObj = {
       userId: 0,
       username: event.value.userName,
       emailId: event.value.emailID,
       password: event.value.password,
       roleId: 0,
-      access: event.value.userRole,
+      access: event.value.userAccess,
     };
 
     this.api.createUser(this.loginObj).subscribe({

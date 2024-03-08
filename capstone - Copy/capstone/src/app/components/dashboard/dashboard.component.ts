@@ -1,36 +1,63 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { BugsService } from 'src/app/shared/services/bugs.service';
 import { Bugs } from 'src/app/shared/models/Bugs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import {FormGroup, FormControl,Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit {
   displayedBugs: Bugs[] = [];
- filteredBugs: Bugs[] = [];
- searchQuery: string = '';
- filterStatus: string = '';
- filterSeverity: string = '';
- filterTesterName: string = '';
- filterDeveloperName: string = '';
- filterBugId: string = '';
- selectedBugId: number | null = null;
+  filteredBugs: Bugs[] = [];
+  searchQuery: string = '';
+  filterStatus: string = '';
+  filterSeverity: string = '';
+  selectedBugId: number | null = null;
+  projId: number
 
-  constructor(private BugsService: BugsService, private router:Router) {}
+
+  searchForm = new FormGroup({
+    searchQuery: new FormControl(''),
+    filterStatus: new FormControl(''),
+    filterSeverity: new FormControl(''),
+ });
+
+  constructor(private BugsService: BugsService, private router: Router, private ar: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.fetchBugs();
+
+    this.searchForm.get('searchQuery')?.valueChanges.subscribe(value => {
+      this.searchQuery = value;
+      this.applySearchs();
+    });
+
+    this.searchForm.get('filterSeverity')?.valueChanges.subscribe(() => this.applyFilters());
+    this.searchForm.get('filterStatus')?.valueChanges.subscribe(() => this.applyFilters());
+
+    this.ar.paramMap.subscribe((map) => {
+      this.projId = +map.get('projectId');
+    });
+  }
+
+  onBugIdClick(bugId:number): void{
+    alert(bugId)
+    sessionStorage.setItem('bugId', bugId.toString());
+    this.router.navigate([`/dashboard/${this.projId}/bugComment/${bugId}`]);
   }
 
   fetchBugs(): void {
-    this.BugsService.getBugs().subscribe(
+    let projId = parseInt(sessionStorage.getItem('projId'));
+    console.log(projId);
+
+    this.BugsService.getBugsByID(projId).subscribe(
       (bugs: Bugs[]) => {
         this.displayedBugs = bugs;
-        this.applyFilters();
+        this.filteredBugs = bugs;
+        console.log(bugs);
       },
       (error) => {
         console.error('Error fetching bugs', error);
@@ -39,47 +66,15 @@ export class DashboardComponent implements OnInit{
   }
 
   createBug(): void {
-    // handle logic to create a new bug
-    /*const newBug: Bugs = {
-      bugId: 0, // Set as per your requirement
-      title: '', // Set the bug title
-      description: '', // Set the bug description
-      severity: '', // Set the bug severity
-      stepsToReproduce: '', // Set the steps to reproduce the bug
-      status: '', // Set the bug status
-      expectedResult: '', // Set the expected result
-      actualResult: '', // Set the actual result
-      filePath: '', // Set the file path
-      testerName: '', // Set the tester ID as per your requirement
-      developerName: '', // Set the developer ID as per your requirement
-      createdAt: '', // Set the created at timestamp
-      updatedAt: '', // Set the updated at timestamp
-      completedAt: '' // Set the completed at timestamp
-    };
-  
-    this.BugsService.createBug(newBug).subscribe(
-      (bug: Bugs) => {
-        // Handle the created bug object
-        console.log('Bug created', bug);
-        // Add the created bug to the displayedBugs array
-        this.displayedBugs.push(bug);
-        // Apply filters again to update the filteredBugs array
-        this.applyFilters();
-      },
-      (error) => {
-        console.error('Error creating bug', error);
-      }
-    );*/
     this.router.navigate(['/create']);
   }
 
   deleteSelectedBugs(): void {
-    // handle logic to delete selected bugs
     if (this.selectedBugId) {
       this.BugsService.deleteBug(this.selectedBugId).subscribe(
         () => {
           console.log('Bug deleted');
-          this.fetchBugs(); // Refresh the list after deletion
+          this.fetchBugs(); 
         },
         (error) => {
           console.error('Error deleting bug', error);
@@ -88,18 +83,26 @@ export class DashboardComponent implements OnInit{
     }
   }
 
-  applyFilters(): void {
-    this.filteredBugs = this.displayedBugs.filter(bug => {
-      const statusMatch = this.filterStatus ? bug.status.toLowerCase() === this.filterStatus.toLowerCase() : true;
-      const severityMatch = this.filterSeverity ? bug.severity.toLowerCase() === this.filterSeverity.toLowerCase() : true;
-      const testerIdMatch = this.filterTesterName ? bug.testerName.toString() === this.filterTesterName : true;
-      const developerIdMatch = this.filterDeveloperName ? bug.developerName.toString() === this.filterDeveloperName : true;
-      const bugIdMatch = this.filterBugId ? bug.bugId.toString() === this.filterBugId : true;
-      const titleMatch = this.searchQuery ? bug.title.toLowerCase().includes(this.searchQuery.toLowerCase()) : true;
+  applySearchs(): void {
+    this.filteredBugs = this.displayedBugs.filter((bug) => {
+       const titleMatch = this.searchQuery
+         ? bug.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+         : true;
+   
+       return titleMatch;
+    });
+   }
 
-      return statusMatch && severityMatch && testerIdMatch && developerIdMatch && bugIdMatch && titleMatch;
+  applyFilters(): void {
+    const filterSeverity = this.searchForm.get('filterSeverity')?.value;
+    const filterStatus = this.searchForm.get('filterStatus')?.value;
+    this.filteredBugs = this.displayedBugs.filter((bug) => {
+      const severityMatch = filterSeverity
+        ? bug.severity.toLowerCase() === filterSeverity.toLowerCase()
+        : true;
+      const statusMatch = filterStatus ? bug.status.toLowerCase() === filterStatus.toLowerCase() : true;
+
+      return severityMatch && statusMatch;
     });
   }
-  
-
 }

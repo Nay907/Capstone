@@ -1,20 +1,16 @@
-/* styles.css */
 
-@import '../../shared/shared-styles/shared-styles.scss';
-
-.authfy-panel-right {
-    background-color: rgb(171, 166, 166);
-    width: 60vh;
-    padding-left: 60px;
+.main-content-container{
+    background-image: url('../../../assets/background.jpeg');
+    height: 100vh;
 }
 
-.authfy-login {
-    padding-left: 60px;
-}
-
-.authfy-heading {
-    margin-right: 64px;
-    padding-top: 25px;
+.card-body{
+    box-sizing: border-box;
+    box-shadow: 10px 10px 10px 10px white;
+    display: flex;
+    align-items: center;
+    color:black;
+    background-color: aliceblue;
 }
 
 .form-group {
@@ -30,4 +26,8 @@
 
 .btn-lg {
     margin-right: 90px;
+}
+.card{
+    background-color: aliceblue;
+    padding: 2%;
 }

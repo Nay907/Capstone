@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { ProjectService } from 'src/app/shared/services/project.service';
 import { Project } from 'src/app/shared/models/Project';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-projects',
@@ -25,7 +26,8 @@ export class ProjectsComponent implements OnInit {
 
   constructor(
     private projectService: ProjectService,
-    private form: FormBuilder
+    private form: FormBuilder,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +43,11 @@ export class ProjectsComponent implements OnInit {
       projectName: this.form.control(''),
     });
     this.valueChanges();
+  }
+  newProj(projectId:number): void{
+    //alert(projectId)
+    sessionStorage.setItem('projId', projectId.toString());
+    this.router.navigate(['/dashboard', projectId]);
   }
 
   getAllProjects(): void {

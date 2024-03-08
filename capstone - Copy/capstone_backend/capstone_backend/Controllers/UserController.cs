@@ -28,6 +28,7 @@ namespace capstone_backend.Controllers
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.EmailId),
+                new Claim("access", user.Access),
                 new Claim(ClaimTypes.Role, user.Access)
             };
 
@@ -79,15 +80,17 @@ namespace capstone_backend.Controllers
         public IActionResult LoginUser([FromBody] User users)
         {
             string res = _userService.LoginUser(users);
-            if (res == "Logged In!")
+            if (res.StartsWith("Logged In!"))
             {
                 var authToken = GenerateJwtToken(users);
-                return Ok(new { message = res, email = users.EmailId, authToken = authToken});
+                var access = res.Split(":")[1];
+                return Ok(new { message = res, email = users.EmailId, authToken = authToken, access=access });
             }
             else
             {
                 return Ok(new { message = res });
             }
         }
+
     }
 }

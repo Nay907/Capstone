@@ -15,8 +15,12 @@ export class BugsService {
     return this.http.get<Bugs[]>(`https://localhost:7128/api/Bugs`);
   }
 
-  createBug(bug: Bugs): Observable<Bugs> {
-    return this.http.post<Bugs>(`${this.apiUrl}/bugs`, bug);
+  getBugsByID(projId: number): Observable<Bugs[]> {
+    return this.http.get<Bugs[]>(`https://localhost:7128/api/Bugs/${projId}`);
+  }
+
+  createBug(bug: Bugs): Observable<object> {
+    return this.http.post<object>(`https://localhost:7128/api/Bugs`, bug, { headers: { 'Content-Type': 'application/json' } });
   }
 
   updateBug(bug: Bugs): Observable<Bugs> {
@@ -25,5 +29,21 @@ export class BugsService {
 
   deleteBug(bugId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/bugs/${bugId}`);
+  }
+
+  getTotalBugCount() {
+    return this.http.get<any>(`https://localhost:7128/api/Bugs/total-bug-count`);
+  }
+
+  getBugCountByLowSeverity() {
+    return this.http.get<any>(`https://localhost:7128/api/Bugs/severity/low`);
+  }
+
+  getBugCountByMediumSeverity() {
+    return this.http.get<any>(`https://localhost:7128/api/Bugs/severity/medium`);
+  }
+
+  getBugCountByHighSeverity() {
+    return this.http.get<any>(`https://localhost:7128/api/Bugs/severity/high`);
   }
 }

@@ -1,0 +1,58 @@
+.align{
+    display: flex;
+    flex-direction: row;
+    
+}
+.card-body{
+    overflow-x: auto;
+    overflow-y:auto;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    height: 100vh;
+    overflow-y: scroll;
+    margin: 0 auto;
+    padding: 20px;
+   }
+   
+   .card-header, .card-body {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    margin-bottom: 20px;
+   }
+   
+   table {
+    width: 100%;
+    border-collapse: collapse;
+   }
+   
+   th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+   }
+   
+   th {
+    background-color: #007bff;
+    color: white;
+   }
+   
+   .btn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+   }
+   
+   .btn-success {
+    background-color: #28a745;
+    color: white;
+   }
+   
+   .btn-danger {
+    background-color: #dc3545;
+    color: white;
+   }
+   

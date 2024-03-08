@@ -1,0 +1,37 @@
+.align{
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(234, 217, 217);
+}
+
+.shortName{
+    cursor: pointer;
+}
+
+.create-new-project {
+    background-color: rgb(63, 93, 103); // Change "Create New Project" button color to light blue
+    border-color: lightblue; // Ensure the border color matches
+   }
+   
+   .edit-project {
+    background-color: #007bff; // Change "Edit" button color to a nice blue
+    border-color: #181816; // Ensure the border color matches
+    margin-right: 10px; // Add a gap between "Edit" and "Delete" buttons
+   }
+   
+   .delete-project {
+    background-color: #dc3545; // Change "Delete" button color to a nice red
+    border-color: #0d0909; // Ensure the border color matches
+   }
+   
+   // Ensure the modal buttons have the same color as the buttons
+   .btn-close, .btn-secondary {
+    background-color: #005daa; // Red color for close and secondary buttons
+    border-color: 	#c60000; // Ensure the border color matches
+   }
+   
+   .btn-primary {
+    background-color: rgb(105, 135, 145); // Light blue color for primary buttons
+    border-color: rgb(169, 50, 27); // Ensure the border color matches
+   }
+   
